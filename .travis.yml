@@ -6,4 +6,4 @@ before_install:
   - docker build -t eadsgraphic/docker -f Dockerfile.dev .
 
 script:
-  - docker run eadsgraphic/docker npm run test -- --coverage
+  - docker run -e CI=true eadsgraphic/docker npm run test -- --coverage
