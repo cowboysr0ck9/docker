@@ -1,23 +1,21 @@
 sudo: required
 services:
   - docker
-
 before_install:
-  - docker build -t eadsgraphic/docker -f Dockerfile.dev .
-
+  - "docker build -t eadsgraphic/docker -f Dockerfile.dev ."
 script:
-  - docker run -e CI=true eadsgraphic/docker npm run test -- --coverage
-
-# Travis CI AWS EBS Automatic Deployment
+  - "docker run -e CI=true eadsgraphic/docker npm run test -- --coverage"
 deploy:
   edge: true
   provider: elasticbeanstalk
-  region: "us-east-1"
-  app: "docker"
-  env: "Docker-env"
-  bucket_name: "elasticbeanstalk-us-east-1-432271918838"
-  bucket_path: "docker"
+      access_key_id:
+      secure: $AWS_ACCESS_KEY
+    secret_access_key:
+      secure: $AWS_SECRET_KEY
+  region: us-east-1
+  app: docker
+  env: Docker-env
+  bucket_name: elasticbeanstalk-us-east-1-432271918838
+  bucket_path: docker
   on:
     branch: master
-    access_key_id: $AWS_ACCESS_KEY
-    secret_access_key: $AWS_SECRET_KEY
